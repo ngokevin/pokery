@@ -1,0 +1,15 @@
+{
+  "name": "poker",
+  "version": "0.0.0",
+  "description": "Poker five-card hand evaluation and Hold'em game state library",
+  "main": "src/holdem.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ngokevin/poker.git"
+  },
+  "author": "Kevin Ngo <me@ngokevin.com> (http://ngokevin.com/)",
+  "license": "GPLv2.0",
+  "bugs": {
+    "url": "https://github.com/ngokevin/poker/issues"
+  }
+}
