@@ -1,40 +1,38 @@
-import _ from 'lodash';
-
 import c from './constants';
 
 
-// Create an initial deck once.
-const DECK = [];
-c.RANKS.forEach(rank => {
-  c.SUITS.forEach(suit => {
-    DECK.push(rank + suit);
-  });
-});
+export function compareHands(handA, handB) {
+  const handAStrengthData = _calcHandStrengthData(handA);
+  const handBStrengthData = _calcHandStrengthData(handB);
+  const handAStrength = handAStrengthData.strength;
+  const handBStrength = handBStrengthData.strength;
 
-
-export class Deck {
-  constructor(excludedCards) {
-    // excludedCards -- ['Ah', '2c'].
-    let cards = DECK.slice(0);
-
-    excludedCards.forEach(card => {
-      // Clever way to find exactly where a card is within a deck.
-      cards[c.RANK_INDEX[card[0]] + c.SUIT_INDEX[card[1]]] = null;
-    });
-
-    this.cards = cards.filter(card => !!card);
+  if (handAStrength > handBStrength) {
+    return 1;
+  } else if (handAStrength < handBStrength) {
+    return -1;
   }
-  draw(n) {
-    // Return n unique cards from the deck. Won't actually pop from the deck.
-    let drawnCards = [];
-    for (let i = 0; i < n; n++) {
-      do {
-        let randomIndex = Math.floor(Math.random() * this.cards.length);
-      } while (drawnCards.indexOf(randomIndex) !== -1)
-      drawnCards.push(randomIndex);
+
+  /* If it's the same hand, compare the appropriate ranks.
+     Go through the cardinalities from most-to-least dominance
+     (e.g. 4 for quads, then 1 for the kicker) and compare the ranks
+     e.g. 4444A vs 3333A: check the cardinality of 4 and compare 4444 vs
+      3333.
+     e.g. 4444A vs 4444K: check the cardinality of 4, see it's same, then
+      check cardinality of 1, the kicker. */
+  const handARanks = handAStrengthData.ranks;
+  const handBRanks = handBStrengthData.ranks;
+  for (let cardinality = 0; cardinality < handARanks.length; cardinality++) {
+    for (let rank = 0; rank < handARanks[cardinality].length; rank++) {
+      if (handARanks[cardinality][rank] > handBRanks[cardinality][rank]) {
+        return 1;
+      }
+      if (handARanks[cardinality][rank] < handBRanks[cardinality][rank]) {
+        return -1;
+      }
     }
-    return drawnCards.map(cardIndex => this.cards[cardIndex]);
   }
+  return 0;
 }
 
 
@@ -145,39 +143,4 @@ function _getHandHistogram(hand) {
   }
 
   return histogram;
-}
-
-
-export function compareHands(handA, handB) {
-  const handAStrengthData = _calcHandStrengthData(handA);
-  const handBStrengthData = _calcHandStrengthData(handB);
-  const handAStrength = handAStrengthData.strength;
-  const handBStrength = handBStrengthData.strength;
-
-  if (handAStrength > handBStrength) {
-    return 1;
-  } else if (handAStrength < handBStrength) {
-    return -1;
-  }
-
-  /* If it's the same hand, compare the appropriate ranks.
-     Go through the cardinalities from most-to-least dominance
-     (e.g. 4 for quads, then 1 for the kicker) and compare the ranks
-     e.g. 4444A vs 3333A: check the cardinality of 4 and compare 4444 vs
-      3333.
-     e.g. 4444A vs 4444K: check the cardinality of 4, see it's same, then
-      check cardinality of 1, the kicker. */
-  const handARanks = handAStrengthData.ranks;
-  const handBRanks = handBStrengthData.ranks;
-  for (let cardinality = 0; cardinality < handARanks.length; cardinality++) {
-    for (let rank = 0; rank < handARanks[cardinality].length; rank++) {
-      if (handARanks[cardinality][rank] > handBRanks[cardinality][rank]) {
-        return 1;
-      }
-      if (handARanks[cardinality][rank] < handBRanks[cardinality][rank]) {
-        return -1;
-      }
-    }
-  }
-  return 0;
 }

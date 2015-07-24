@@ -1,10 +1,10 @@
 import {assert} from 'chai';
 
-import {calcHand, compareHands, getHandStrength} from '../holdem';
+import {calcHand, compareHands} from '../hand';
 import c from '../constants';
 
 
-function _createHand(cards, withStrength) {
+function _createHand(cards) {
   // List of rank-suits (['4s', 'Kd']) to list of Cards.
   const ranks = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8,
                  '9': 9, 'T': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14};
@@ -16,75 +16,6 @@ function _createHand(cards, withStrength) {
   // Also calculate handStrength if specified, five-card hand only.
   return hand;
 }
-
-
-describe('calcHand', () => {
-  it('resolves high card', () => {
-    const hand = _createHand(['Ac', '3d', '5h', '7s', '9c', 'Td', 'Qh']);
-    assert.equal(calcHand(hand).strength, c.HAND_HIGH);
-  });
-
-  it('resolves pair', () => {
-    const hand = _createHand(['Ac', 'Ad', '5h', '7s', '9c', 'Td', 'Qh']);
-    assert.equal(calcHand(hand).strength, c.HAND_PAIR);
-  });
-
-  it('resolves two pair', () => {
-    const hand = _createHand(['Ac', 'Ad', '5h', '5s', '9c', 'Td', 'Qh']);
-    assert.equal(calcHand(hand).strength, c.HAND_TWO_PAIR);
-  });
-
-  it('resolves trips', () => {
-    const hand = _createHand(['Ac', 'Ad', 'Ah', '5s', '9c', 'Td', 'Qh']);
-    assert.equal(calcHand(hand).strength, c.HAND_TRIPS);
-  });
-
-  it('resolves straight', () => {
-    const hand = _createHand(['2c', '3d', '4h', '5s', '6c', 'Td', 'Th']);
-    assert.equal(calcHand(hand).strength, c.HAND_STRAIGHT);
-  });
-
-  it('resolves straight (wheel)', () => {
-    const hand = _createHand(['Ac', '2d', '3h', '4s', '5c', 'Td', 'Th']);
-    assert.equal(calcHand(hand).strength, c.HAND_STRAIGHT);
-  });
-
-  it('resolves straight (broadway)', () => {
-    const hand = _createHand(['Tc', 'Jd', 'Qh', 'Ks', 'Ac', 'Td', 'Th']);
-    assert.equal(calcHand(hand).strength, c.HAND_STRAIGHT);
-  });
-
-  it('resolves flush', () => {
-    const hand = _createHand(['Ac', '3c', '5c', '7c', '9c', 'Td', 'Th']);
-    assert.equal(calcHand(hand).strength, c.HAND_FLUSH);
-  });
-
-  it('resolves full house', () => {
-    const hand = _createHand(['Ac', 'Ad', 'Ah', '5s', '5c', 'Td', 'Qh']);
-    assert.equal(calcHand(hand).strength, c.HAND_BOAT);
-  });
-
-  it('resolves quads', () => {
-    const hand = _createHand(['Ac', 'Ad', 'Ah', 'As', '5c', 'Td', 'Th']);
-    assert.equal(calcHand(hand).strength, c.HAND_QUADS);
-  });
-
-  it('resolves straight flush', () => {
-    const hand = _createHand(['2c', '3c', '4c', '5c', '6c', 'Td', 'Th']);
-    assert.equal(calcHand(hand).strength, c.HAND_STR_FLUSH);
-  });
-
-  it('resolves straight flush (wheel)', () => {
-    const hand = _createHand(['Ad', '2d', '3d', '4d', '5d', 'Th', 'Ts']);
-    assert.equal(calcHand(hand).strength, c.HAND_STR_FLUSH);
-  });
-
-  it('resolves straight flush (broadway)', () => {
-    // Broadway.
-    const hand = _createHand(['Th', 'Jh', 'Qh', 'Kh', 'Ah', 'Ts', 'Tc']);
-    assert.equal(calcHand(hand).strength, c.HAND_STR_FLUSH);
-  });
-});
 
 
 describe('compareHands', () => {
@@ -247,5 +178,74 @@ describe('compareHands', () => {
       _createHand(['Ac', 'Ad', 'Ah', 'As', 'Jc']),
       _createHand(['Ac', 'Ad', 'Ah', 'As', 'Ts'])
     ), 1);
+  });
+});
+
+
+describe('calcHand', () => {
+  it('resolves high card', () => {
+    const hand = _createHand(['Ac', '3d', '5h', '7s', '9c', 'Td', 'Qh']);
+    assert.equal(calcHand(hand).strength, c.HAND_HIGH);
+  });
+
+  it('resolves pair', () => {
+    const hand = _createHand(['Ac', 'Ad', '5h', '7s', '9c', 'Td', 'Qh']);
+    assert.equal(calcHand(hand).strength, c.HAND_PAIR);
+  });
+
+  it('resolves two pair', () => {
+    const hand = _createHand(['Ac', 'Ad', '5h', '5s', '9c', 'Td', 'Qh']);
+    assert.equal(calcHand(hand).strength, c.HAND_TWO_PAIR);
+  });
+
+  it('resolves trips', () => {
+    const hand = _createHand(['Ac', 'Ad', 'Ah', '5s', '9c', 'Td', 'Qh']);
+    assert.equal(calcHand(hand).strength, c.HAND_TRIPS);
+  });
+
+  it('resolves straight', () => {
+    const hand = _createHand(['2c', '3d', '4h', '5s', '6c', 'Td', 'Th']);
+    assert.equal(calcHand(hand).strength, c.HAND_STRAIGHT);
+  });
+
+  it('resolves straight (wheel)', () => {
+    const hand = _createHand(['Ac', '2d', '3h', '4s', '5c', 'Td', 'Th']);
+    assert.equal(calcHand(hand).strength, c.HAND_STRAIGHT);
+  });
+
+  it('resolves straight (broadway)', () => {
+    const hand = _createHand(['Tc', 'Jd', 'Qh', 'Ks', 'Ac', 'Td', 'Th']);
+    assert.equal(calcHand(hand).strength, c.HAND_STRAIGHT);
+  });
+
+  it('resolves flush', () => {
+    const hand = _createHand(['Ac', '3c', '5c', '7c', '9c', 'Td', 'Th']);
+    assert.equal(calcHand(hand).strength, c.HAND_FLUSH);
+  });
+
+  it('resolves full house', () => {
+    const hand = _createHand(['Ac', 'Ad', 'Ah', '5s', '5c', 'Td', 'Qh']);
+    assert.equal(calcHand(hand).strength, c.HAND_BOAT);
+  });
+
+  it('resolves quads', () => {
+    const hand = _createHand(['Ac', 'Ad', 'Ah', 'As', '5c', 'Td', 'Th']);
+    assert.equal(calcHand(hand).strength, c.HAND_QUADS);
+  });
+
+  it('resolves straight flush', () => {
+    const hand = _createHand(['2c', '3c', '4c', '5c', '6c', 'Td', 'Th']);
+    assert.equal(calcHand(hand).strength, c.HAND_STR_FLUSH);
+  });
+
+  it('resolves straight flush (wheel)', () => {
+    const hand = _createHand(['Ad', '2d', '3d', '4d', '5d', 'Th', 'Ts']);
+    assert.equal(calcHand(hand).strength, c.HAND_STR_FLUSH);
+  });
+
+  it('resolves straight flush (broadway)', () => {
+    // Broadway.
+    const hand = _createHand(['Th', 'Jh', 'Qh', 'Kh', 'Ah', 'Ts', 'Tc']);
+    assert.equal(calcHand(hand).strength, c.HAND_STR_FLUSH);
   });
 });
