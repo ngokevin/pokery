@@ -1,3 +1,16 @@
+// Card enumeration constants.
+const RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'];
+const SUITS = ['c', 'd', 'h', 's'];
+
+let RANK_INDEX = {};
+RANKS.forEach((rank, i) => {
+  RANK_INDEX[rank] = i;
+});
+let SUIT_INDEX = {};
+SUITS.forEach((suit, i) => {
+  SUIT_INDEX[suit] = i;
+});
+
 // Hand strength constants.
 const HAND_HIGH = 0;
 const HAND_PAIR = 1;
@@ -44,6 +57,11 @@ const ROUND_STRS = {
 
 
 export default {
+  RANKS: RANKS,
+  SUITS: SUITS,
+  RANK_INDEX: RANK_INDEX,
+  SUIT_INDEX: SUIT_INDEX,
+
   HAND_HIGH: HAND_HIGH,
   HAND_PAIR: HAND_PAIR,
   HAND_TWO_PAIR: HAND_TWO_PAIR,
@@ -54,6 +72,7 @@ export default {
   HAND_QUADS: HAND_QUADS,
   HAND_STR_FLUSH: HAND_STR_FLUSH,
   HAND_STRS: HAND_STRS,
+
   ROUND_PREFLOP: ROUND_PREFLOP,
   ROUND_FLOP: ROUND_FLOP,
   ROUND_TURN: ROUND_TURN,

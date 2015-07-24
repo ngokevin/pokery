@@ -14,7 +14,7 @@ function _createHand(cards, withStrength) {
   }));
 
   // Also calculate handStrength if specified, five-card hand only.
-  return withStrength ? getHandStrength(hand) : hand;
+  return hand;
 }
 
 
@@ -90,162 +90,162 @@ describe('calcHand', () => {
 describe('compareHands', () => {
   it('compares high card vs. better high card', () => {
     assert.equal(compareHands(
-      _createHand(['Ac', 'Td', '7h', '5s', '2c'], true),
-      _createHand(['As', 'Th', '7d', '5c', '3s'], true)
+      _createHand(['Ac', 'Td', '7h', '5s', '2c']),
+      _createHand(['As', 'Th', '7d', '5c', '3s'])
     ), -1);
   });
 
   it('compares high card vs. same high card', () => {
     assert.equal(compareHands(
-      _createHand(['Ac', 'Td', '7h', '5s', '3c'], true),
-      _createHand(['As', 'Th', '7d', '5c', '3s'], true)
+      _createHand(['Ac', 'Td', '7h', '5s', '3c']),
+      _createHand(['As', 'Th', '7d', '5c', '3s'])
     ), 0);
   });
 
   it('compares high card vs. worse high card', () => {
     assert.equal(compareHands(
-      _createHand(['Ac', 'Td', '7h', '5s', '3c'], true),
-      _createHand(['As', '9h', '7d', '5c', '3s'], true)
+      _createHand(['Ac', 'Td', '7h', '5s', '3c']),
+      _createHand(['As', '9h', '7d', '5c', '3s'])
     ), 1);
   });
 
   it('compares pair vs. pair with better kickers', () => {
     assert.equal(compareHands(
-      _createHand(['Ac', 'Ad', '7h', '5s', '2c'], true),
-      _createHand(['As', 'Ah', '7d', '5c', '3s'], true)
+      _createHand(['Ac', 'Ad', '7h', '5s', '2c']),
+      _createHand(['As', 'Ah', '7d', '5c', '3s'])
     ), -1);
   });
 
   it('compares pair vs. same pair', () => {
     assert.equal(compareHands(
-      _createHand(['Kc', 'Kd', '7h', '5s', '2c'], true),
-      _createHand(['Ks', 'Kh', '7d', '5c', '2s'], true)
+      _createHand(['Kc', 'Kd', '7h', '5s', '2c']),
+      _createHand(['Ks', 'Kh', '7d', '5c', '2s'])
     ), 0);
   });
 
   it('compares pair vs. worse pair', () => {
     assert.equal(compareHands(
-      _createHand(['Ac', 'Ad', '7h', '5s', '2c'], true),
-      _createHand(['Js', 'Jh', '7d', '5c', '3s'], true)
+      _createHand(['Ac', 'Ad', '7h', '5s', '2c']),
+      _createHand(['Js', 'Jh', '7d', '5c', '3s'])
     ), 1);
   });
 
   it('compares two pair vs. better two pair', () => {
     assert.equal(compareHands(
-      _createHand(['Tc', 'Td', '5h', '5s', 'Ac'], true),
-      _createHand(['Js', 'Jh', '3d', '3c', '2s'], true)
+      _createHand(['Tc', 'Td', '5h', '5s', 'Ac']),
+      _createHand(['Js', 'Jh', '3d', '3c', '2s'])
     ), -1);
   });
 
   it('compares two pair vs. same two pair', () => {
     assert.equal(compareHands(
-      _createHand(['4c', '4d', '3h', '3s', 'Ac'], true),
-      _createHand(['4s', '4h', '3d', '3c', 'As'], true)
+      _createHand(['4c', '4d', '3h', '3s', 'Ac']),
+      _createHand(['4s', '4h', '3d', '3c', 'As'])
     ), 0);
   });
 
   it('compares two pair vs. two pair with worse kicker', () => {
     assert.equal(compareHands(
-      _createHand(['Tc', 'Td', '5h', '5s', 'Ac'], true),
-      _createHand(['Ts', 'Th', '5d', '5c', 'Ks'], true)
+      _createHand(['Tc', 'Td', '5h', '5s', 'Ac']),
+      _createHand(['Ts', 'Th', '5d', '5c', 'Ks'])
     ), 1);
   });
 
   it('compares trips vs. better trips', () => {
     assert.equal(compareHands(
-      _createHand(['Tc', 'Td', 'Th', 'As', 'Kc'], true),
-      _createHand(['Js', 'Jh', 'Jd', '3c', '2s'], true)
+      _createHand(['Tc', 'Td', 'Th', 'As', 'Kc']),
+      _createHand(['Js', 'Jh', 'Jd', '3c', '2s'])
     ), -1);
   });
 
   it('compares trips vs. worse trips', () => {
     assert.equal(compareHands(
-      _createHand(['3c', '3d', '3h', '4s', '5c'], true),
-      _createHand(['2s', '2h', '2d', 'Qc', 'Js'], true)
+      _createHand(['3c', '3d', '3h', '4s', '5c']),
+      _createHand(['2s', '2h', '2d', 'Qc', 'Js'])
     ), 1);
   });
 
   it('compares straight vs. better straight', () => {
     assert.equal(compareHands(
-      _createHand(['5c', '6d', '7h', '8s', '9c'], true),
-      _createHand(['6s', '7h', '8d', '9c', 'Ts'], true)
+      _createHand(['5c', '6d', '7h', '8s', '9c']),
+      _createHand(['6s', '7h', '8d', '9c', 'Ts'])
     ), -1);
   });
 
   it('compares straight vs. same straight', () => {
     assert.equal(compareHands(
-      _createHand(['6c', '7d', '8h', '9s', 'Tc'], true),
-      _createHand(['6c', '7d', '8h', '9h', 'Td'], true)
+      _createHand(['6c', '7d', '8h', '9s', 'Tc']),
+      _createHand(['6c', '7d', '8h', '9h', 'Td'])
     ), 0);
   });
 
   it('compares straight vs. worse straight', () => {
     assert.equal(compareHands(
-      _createHand(['Ts', 'Jh', 'Qd', 'Kc', 'As'], true),
-      _createHand(['9c', 'Td', 'Jh', 'Qs', 'Kc'], true)
+      _createHand(['Ts', 'Jh', 'Qd', 'Kc', 'As']),
+      _createHand(['9c', 'Td', 'Jh', 'Qs', 'Kc'])
     ), 1);
   });
 
   it('compares flush vs. better flush', () => {
     assert.equal(compareHands(
-      _createHand(['Ac', 'Tc', '7c', '5c', '2c'], true),
-      _createHand(['Ac', 'Tc', '7c', '5c', '3c'], true)
+      _createHand(['Ac', 'Tc', '7c', '5c', '2c']),
+      _createHand(['Ac', 'Tc', '7c', '5c', '3c'])
     ), -1);
   });
 
   it('compares flush vs. same flush', () => {
     assert.equal(compareHands(
-      _createHand(['Ah', 'Th', '7h', '5h', '3h'], true),
-      _createHand(['Ah', 'Th', '7h', '5h', '3h'], true)
+      _createHand(['Ah', 'Th', '7h', '5h', '3h']),
+      _createHand(['Ah', 'Th', '7h', '5h', '3h'])
     ), 0);
   });
 
   it('compares flush vs. worse flush', () => {
     assert.equal(compareHands(
-      _createHand(['As', 'Ts', '7s', '5s', '3s'], true),
-      _createHand(['As', '9s', '7s', '5s', '3s'], true)
+      _createHand(['As', 'Ts', '7s', '5s', '3s']),
+      _createHand(['As', '9s', '7s', '5s', '3s'])
     ), 1);
   });
 
   it('compares full house vs. better full house', () => {
     assert.equal(compareHands(
-      _createHand(['Ac', 'Ad', 'Ah', '2s', '2c'], true),
-      _createHand(['Ac', 'Ad', 'Ah', '7c', '7s'], true)
+      _createHand(['Ac', 'Ad', 'Ah', '2s', '2c']),
+      _createHand(['Ac', 'Ad', 'Ah', '7c', '7s'])
     ), -1);
   });
 
   it('compares full house vs. same full house', () => {
     assert.equal(compareHands(
-      _createHand(['Ac', 'Ad', 'Ah', '2s', '2c'], true),
-      _createHand(['Ac', 'Ad', 'Ah', '2c', '2s'], true)
+      _createHand(['Ac', 'Ad', 'Ah', '2s', '2c']),
+      _createHand(['Ac', 'Ad', 'Ah', '2c', '2s'])
     ), 0);
   });
 
   it('compares full house vs. worse full house', () => {
     assert.equal(compareHands(
-      _createHand(['Ac', 'Ad', 'Ah', '2s', '2c'], true),
-      _createHand(['Ks', 'Kh', 'Kd', 'Qc', 'Qs'], true)
+      _createHand(['Ac', 'Ad', 'Ah', '2s', '2c']),
+      _createHand(['Ks', 'Kh', 'Kd', 'Qc', 'Qs'])
     ), 1);
   });
 
   it('compares quads vs. better quads', () => {
     assert.equal(compareHands(
-      _createHand(['Kc', 'Kd', 'Kh', 'Ks', 'As'], true),
-      _createHand(['Ac', 'Ad', 'Ah', 'As', 'Ks'], true)
+      _createHand(['Kc', 'Kd', 'Kh', 'Ks', 'As']),
+      _createHand(['Ac', 'Ad', 'Ah', 'As', 'Ks'])
     ), -1);
   });
 
   it('compares quads vs. same quads', () => {
     assert.equal(compareHands(
-      _createHand(['Kc', 'Kd', 'Kh', 'Ks', 'As'], true),
-      _createHand(['Kc', 'Kd', 'Kh', 'Ks', 'As'], true)
+      _createHand(['Kc', 'Kd', 'Kh', 'Ks', 'As']),
+      _createHand(['Kc', 'Kd', 'Kh', 'Ks', 'As'])
     ), 0);
   });
 
   it('compares quads vs. worse quads', () => {
     assert.equal(compareHands(
-      _createHand(['Ac', 'Ad', 'Ah', 'As', 'Jc'], true),
-      _createHand(['Ac', 'Ad', 'Ah', 'As', 'Ts'], true)
+      _createHand(['Ac', 'Ad', 'Ah', 'As', 'Jc']),
+      _createHand(['Ac', 'Ad', 'Ah', 'As', 'Ts'])
     ), 1);
   });
 });

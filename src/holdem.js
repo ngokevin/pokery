@@ -1,50 +1,40 @@
+import _ from 'lodash';
+
 import c from './constants';
 
 
-export const Deck = function() {
-  this.deck = createDeck();
-  this.shuffle();
-};
+// Create an initial deck once.
+const DECK = [];
+c.RANKS.forEach(rank => {
+  c.SUITS.forEach(suit => {
+    DECK.push(rank + suit);
+  });
+});
 
-Deck.prototype.draw = function(n) {
-  if (!n || n == 1) {
-    return this.deck.pop();
+
+export class Deck {
+  constructor(excludedCards) {
+    // excludedCards -- ['Ah', '2c'].
+    let cards = DECK.slice(0);
+
+    excludedCards.forEach(card => {
+      // Clever way to find exactly where a card is within a deck.
+      cards[c.RANK_INDEX[card[0]] + c.SUIT_INDEX[card[1]]] = null;
+    });
+
+    this.cards = cards.filter(card => !!card);
   }
-  return this.deck.splice(0, n);
-};
-
-Deck.prototype.shuffle = function() {
-  let tmp;
-  let current;
-  let top = this.deck.length;
-
-  if (top) {
-    while(--top) {
-      current = Math.floor(Math.random() * (top + 1));
-      tmp = this.deck[current];
-      this.deck[current] = this.deck[top];
-      this.deck[top] = tmp;
+  draw(n) {
+    // Return n unique cards from the deck. Won't actually pop from the deck.
+    let drawnCards = [];
+    for (let i = 0; i < n; n++) {
+      do {
+        let randomIndex = Math.floor(Math.random() * this.cards.length);
+      } while (drawnCards.indexOf(randomIndex) !== -1)
+      drawnCards.push(randomIndex);
     }
+    return drawnCards.map(cardIndex => this.cards[cardIndex]);
   }
-
-  return this.deck;
-};
-
-export function createDeck() {
-  // Returns a shuffled deck.
-  const suits = ['c', 'd', 'h', 's'];
-  const deck = [];
-
-  for (let i = 2; i <= 14; i++) {
-    for (let j = 0; j < suits.length; j++) {
-      // Card.
-      deck.push({
-        rank: i,
-        suit: suits[j],
-      });
-    }
-  }
-  return deck;
 }
 
 
@@ -52,26 +42,31 @@ export function calcHand(hand) {
   // Iterates through hand, recursively removing a card until we get
   // five-card hands. Determines the strength of hand, returns it, and
   // the best hand will bubble up the stack.
-  if (hand.length == 5) {
-    return getHandStrength(hand);
+  function _calcHand(hand) {
+    if (hand.length == 5) {
+      return hand;
+    }
+
+    let bestHand;
+    for (let i = 0; i < hand.length; i++) {
+      let slicedHand = hand.slice(0);
+      slicedHand.splice(i, 1);
+      const possibleBestHand = _calcHand(slicedHand);
+      if (!bestHand || compareHands(possibleBestHand, bestHand) == 1) {
+        bestHand = possibleBestHand;
+      }
+    }
+    return bestHand;
   }
 
-  let bestHand;
-  for (let i = 0; i < hand.length; i++) {
-    let slicedHand = hand.slice(0);
-    slicedHand.splice(i, 1);
-    const possibleBestHand = calcHand(slicedHand);
-    if (!bestHand || compareHands(possibleBestHand, bestHand) == 1) {
-      bestHand = possibleBestHand;
-    }
-  }
-  return bestHand;
+  // Wrap it so we can return hand strength data for convenience.
+  return _calcHandStrengthData(_calcHand(hand));
 }
 
 
-export function getHandStrength(hand) {
-  // Calculate hand strength.
-  const histogram = getHandHistogram(hand);
+function _calcHandStrengthData(hand) {
+  // Calculate hand strength data.
+  const histogram = _getHandHistogram(hand);
 
   if ('4' in histogram) {
     // Quads.
@@ -122,7 +117,7 @@ export function getHandStrength(hand) {
 }
 
 
-function getHandHistogram(hand) {
+function _getHandHistogram(hand) {
   // Get cardinalities (e.g. {'5': 2, '13': 1}).
   let cardinalities = {};
   for (let i = 0; i < hand.length; i++) {
@@ -154,10 +149,14 @@ function getHandHistogram(hand) {
 
 
 export function compareHands(handA, handB) {
-  if (handA.strength > handB.strength) {
+  const handAStrengthData = _calcHandStrengthData(handA);
+  const handBStrengthData = _calcHandStrengthData(handB);
+  const handAStrength = handAStrengthData.strength;
+  const handBStrength = handBStrengthData.strength;
+
+  if (handAStrength > handBStrength) {
     return 1;
-  }
-  if (handA.strength < handB.strength) {
+  } else if (handAStrength < handBStrength) {
     return -1;
   }
 
@@ -168,12 +167,14 @@ export function compareHands(handA, handB) {
       3333.
      e.g. 4444A vs 4444K: check the cardinality of 4, see it's same, then
       check cardinality of 1, the kicker. */
-  for (let cardinality = 0; cardinality < handA.ranks.length; cardinality++) {
-    for (let rank = 0; rank < handA.ranks[cardinality].length; rank++) {
-      if (handA.ranks[cardinality][rank] > handB.ranks[cardinality][rank]) {
+  const handARanks = handAStrengthData.ranks;
+  const handBRanks = handBStrengthData.ranks;
+  for (let cardinality = 0; cardinality < handARanks.length; cardinality++) {
+    for (let rank = 0; rank < handARanks[cardinality].length; rank++) {
+      if (handARanks[cardinality][rank] > handBRanks[cardinality][rank]) {
         return 1;
       }
-      if (handA.ranks[cardinality][rank] < handB.ranks[cardinality][rank]) {
+      if (handARanks[cardinality][rank] < handBRanks[cardinality][rank]) {
         return -1;
       }
     }
