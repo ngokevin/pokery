@@ -1,6 +1,4 @@
-poker
-=====
+pokery
+======
 
-Node poker hand evaluation and Hold'em game state library.
-
-NOTE: under development
+Hold'em poker cruncher.

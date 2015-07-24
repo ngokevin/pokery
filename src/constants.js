@@ -1,49 +1,63 @@
-(function(exports) {
-    // Action constants.
-    exports.ACTION_FOLD = 0;
-    exports.ACTION_CHECK = 1;
-    exports.ACTION_CALL = 2;
-    exports.ACTION_RAISE = 3;
+// Hand strength constants.
+const HAND_HIGH = 0;
+const HAND_PAIR = 1;
+const HAND_TWO_PAIR = 2;
+const HAND_TRIPS = 3;
+const HAND_STRAIGHT = 4;
+const HAND_FLUSH = 5;
+const HAND_BOAT = 6;
+const HAND_QUADS = 7;
+const HAND_STR_FLUSH = 8;
 
-    exports.actions = {};
-    exports.actions[exports.ACTION_FOLD] = 'folded';
-    exports.actions[exports.ACTION_CHECK] = 'checked';
-    exports.actions[exports.ACTION_CALL] = 'called';
-    exports.actions[exports.ACTION_RAISE] = 'raised to';
+const HAND_STRS = {
+  [HAND_HIGH]: 'High Card',
+  [HAND_PAIR]: 'Pair',
+  [HAND_TWO_PAIR]: 'Two Pair',
+  [HAND_TRIPS]: 'Three-of-a-kind',
+  [HAND_STRAIGHT]: 'Straight',
+  [HAND_FLUSH]: 'Flush',
+  [HAND_BOAT]: 'Full House',
+  [HAND_QUADS]: 'Four-of-a-kind',
+  [HAND_STR_FLUSH]: 'Straight Flush',
+};
 
-    // Round constants.
-    exports.ROUND_PREFLOP = 0;
-    exports.ROUND_FLOP = 1;
-    exports.ROUND_TURN = 2;
-    exports.ROUND_RIVER = 3;
-    exports.roundList = [exports.ROUND_PREFLOP, exports.ROUND_FLOP,
-                         exports.ROUND_TURN, exports.ROUND_RIVER];
 
-    exports.rounds = {};
-    exports.rounds[exports.ROUND_PREFLOP] = 'preflop';
-    exports.rounds[exports.ROUND_FLOP] = 'flop';
-    exports.rounds[exports.ROUND_TURN] = 'turn';
-    exports.rounds[exports.ROUND_RIVER] = 'river';
+// Round constants.
+const ROUND_PREFLOP = 0;
+const ROUND_FLOP = 1;
+const ROUND_TURN = 2;
+const ROUND_RIVER = 3;
+const ROUND_LIST = [
+  ROUND_PREFLOP,
+  ROUND_FLOP,
+  ROUND_TURN,
+  ROUND_RIVER
+];
 
-    // Hand strength constants.
-    exports.HAND_HIGH = 0;
-    exports.HAND_PAIR = 1;
-    exports.HAND_TWO_PAIR = 2;
-    exports.HAND_TRIPS = 3;
-    exports.HAND_STRAIGHT = 4;
-    exports.HAND_FLUSH = 5;
-    exports.HAND_BOAT = 6;
-    exports.HAND_QUADS = 7;
-    exports.HAND_STR_FLUSH = 8;
+const ROUND_STRS = {
+  [ROUND_PREFLOP]: 'Preflop',
+  [ROUND_FLOP]: 'Flop',
+  [ROUND_TURN]: 'Turn',
+  [ROUND_RIVER]: 'River',
+};
 
-    exports.hands = {};
-    exports.hands[exports.HAND_HIGH] = 'High Card';
-    exports.hands[exports.HAND_PAIR] = 'Pair';
-    exports.hands[exports.HAND_TWO_PAIR] = 'Two Pair';
-    exports.hands[exports.HAND_TRIPS] = 'Three-of-a-kind';
-    exports.hands[exports.HAND_STRAIGHT] = 'Straight';
-    exports.hands[exports.HAND_FLUSH] = 'Flush';
-    exports.hands[exports.HAND_BOAT] = 'Full House';
-    exports.hands[exports.HAND_QUADS] = 'Four-of-a-kind';
-    exports.hands[exports.HAND_STR_FLUSH] = 'Straight Flush';
-})(typeof exports === 'undefined' ? this['c'] = {} : exports);
+
+
+export default {
+  HAND_HIGH: HAND_HIGH,
+  HAND_PAIR: HAND_PAIR,
+  HAND_TWO_PAIR: HAND_TWO_PAIR,
+  HAND_TRIPS: HAND_TRIPS,
+  HAND_STRAIGHT: HAND_STRAIGHT,
+  HAND_FLUSH: HAND_FLUSH,
+  HAND_BOAT: HAND_BOAT,
+  HAND_QUADS: HAND_QUADS,
+  HAND_STR_FLUSH: HAND_STR_FLUSH,
+  HAND_STRS: HAND_STRS,
+  ROUND_PREFLOP: ROUND_PREFLOP,
+  ROUND_FLOP: ROUND_FLOP,
+  ROUND_TURN: ROUND_TURN,
+  ROUND_RIVER: ROUND_RIVER,
+  ROUND_LIST: ROUND_LIST,
+  ROUND_STRS: ROUND_STRS,
+};
