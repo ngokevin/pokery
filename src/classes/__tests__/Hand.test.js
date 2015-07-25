@@ -2,7 +2,7 @@ import c from '../../constants';
 import Hand from '../Hand';
 
 
-describe('Hand constructor', () => {
+describe('Hand.constructor', () => {
   it('reduces to high card', () => {
     const hand = new Hand(['Ac', '3d', '5h', '7s', '9c', 'Td', 'Qh']);
     assert.equal(hand.strength, c.HAND_HIGH);
@@ -71,7 +71,7 @@ describe('Hand constructor', () => {
 });
 
 
-describe('compareHands', () => {
+describe('Hand.vs', () => {
   it('compares high card vs. better high card', () => {
     assert.equal(new Hand(['Ac', 'Td', '7h', '5s', '2c']).vs(
                  new Hand(['As', 'Th', '7d', '5c', '3s'])), -1);
