@@ -1,4 +1,4 @@
-import Deck from '../classes/Deck';
+import Deck from '../Deck';
 
 
 describe('Deck', () => {
