@@ -1,4 +1,4 @@
-import c from './constants';
+import c from '../constants';
 
 
 // Create an initial deck once.

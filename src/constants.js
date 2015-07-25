@@ -2,14 +2,24 @@
 const RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'];
 const SUITS = ['c', 'd', 'h', 's'];
 
+// Maps a rank string to an absolute number.
+const RANK_STRENGTHS = {};
+RANKS.forEach((rank, i) => {
+  RANK_STRENGTHS[rank] = i + 2;
+});
+
+// Maps a rank string to its index in the RANKS array.
 let RANK_INDEX = {};
 RANKS.forEach((rank, i) => {
   RANK_INDEX[rank] = i;
 });
+
+// Maps a suit string to its index in the SUITS array.
 let SUIT_INDEX = {};
 SUITS.forEach((suit, i) => {
   SUIT_INDEX[suit] = i;
 });
+
 
 // Hand strength constants.
 const HAND_HIGH = 0;
@@ -55,10 +65,10 @@ const ROUND_STRS = {
 };
 
 
-
 export default {
   RANKS: RANKS,
   SUITS: SUITS,
+  RANK_STRENGTHS: RANK_STRENGTHS,
   RANK_INDEX: RANK_INDEX,
   SUIT_INDEX: SUIT_INDEX,
 

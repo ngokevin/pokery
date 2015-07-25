@@ -1,5 +1,3 @@
-import {assert} from 'chai';
-
 import {calcHand, compareHands} from '../hand';
 import c from '../constants';
 

@@ -1,8 +1,4 @@
-import _ from 'lodash';
-import {assert} from 'chai';
-
-import Deck from '../Deck';
-
+import Deck from '../classes/Deck';
 
 
 describe('Deck', () => {

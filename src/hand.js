@@ -37,9 +37,12 @@ export function compareHands(handA, handB) {
 
 
 export function calcHand(hand) {
-  // Iterates through hand, recursively removing a card until we get
-  // five-card hands. Determines the strength of hand, returns it, and
-  // the best hand will bubble up the stack.
+  /* Iterates through hand, recursively removing a card until we get
+     five-card hands. Determines the strength of hand, returns it, and
+     the best hand will bubble up the stack.
+
+     hand -- ['Ah', 'Kd', 'Qs', 'Tc', '6s']
+  */
   function _calcHand(hand) {
     if (hand.length == 5) {
       return hand;
