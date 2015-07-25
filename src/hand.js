@@ -1,7 +1,17 @@
 import c from './constants';
+import Card from './classes/Card';
 
 
 export function compareHands(handA, handB) {
+  /*
+    Compares two hands, returning -1/0/1.
+
+    handA -- ['Ah', 'Ad', 'As', 'Ac', '2d'].
+    handB -- ['2h', '3d', '4s', '5c', '6d'].
+  */
+  handA = _transformHand(handA);
+  handB = _transformHand(handB);
+
   const handAStrengthData = _calcHandStrengthData(handA);
   const handBStrengthData = _calcHandStrengthData(handB);
   const handAStrength = handAStrengthData.strength;
@@ -37,11 +47,12 @@ export function compareHands(handA, handB) {
 
 
 export function calcHand(hand) {
-  /* Iterates through hand, recursively removing a card until we get
-     five-card hands. Determines the strength of hand, returns it, and
-     the best hand will bubble up the stack.
+  /*
+    Iterates through hand, recursively removing a card until we get
+    five-card hands. Determines the strength of hand, returns it, and
+    the best hand will bubble up the stack.
 
-     hand -- ['Ah', 'Kd', 'Qs', 'Tc', '6s']
+    hand -- ['Ah', 'Kd', 'Qs', 'Tc', '6s'].
   */
   function _calcHand(hand) {
     if (hand.length == 5) {
@@ -52,7 +63,7 @@ export function calcHand(hand) {
     for (let i = 0; i < hand.length; i++) {
       let slicedHand = hand.slice(0);
       slicedHand.splice(i, 1);
-      const possibleBestHand = _calcHand(slicedHand);
+      let possibleBestHand = _calcHand(slicedHand);
       if (!bestHand || compareHands(possibleBestHand, bestHand) == 1) {
         bestHand = possibleBestHand;
       }
@@ -61,12 +72,17 @@ export function calcHand(hand) {
   }
 
   // Wrap it so we can return hand strength data for convenience.
-  return _calcHandStrengthData(_calcHand(hand));
+  let bestHand = _calcHand(hand);
+  return _calcHandStrengthData(_transformHand(bestHand));
 }
 
 
 function _calcHandStrengthData(hand) {
-  // Calculate hand strength data.
+  /*
+    Calculates hand strength data.
+
+    hand -- [Card('Ah'), Card('Kd'), Card('Qs'), Card('Tc'), Card('6s')].
+  */
   const histogram = _getHandHistogram(hand);
 
   if ('4' in histogram) {
@@ -119,7 +135,11 @@ function _calcHandStrengthData(hand) {
 
 
 function _getHandHistogram(hand) {
-  // Get cardinalities (e.g. {'5': 2, '13': 1}).
+  /*
+    Get cardinalities (e.g. {'5': 2, '13': 1}).
+
+    hand -- [Card('Ah'), Card('Kd'), Card('Qs'), Card('Tc'), Card('6s')].
+  */
   let cardinalities = {};
   for (let i = 0; i < hand.length; i++) {
     if (hand[i].rank in cardinalities) {
@@ -146,4 +166,10 @@ function _getHandHistogram(hand) {
   }
 
   return histogram;
+}
+
+
+function _transformHand(hand) {
+  // Transforms a hand of serialized cards to deserialized Cards.
+  return hand.map(card => new Card(card));
 }
