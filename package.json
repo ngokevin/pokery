@@ -1,7 +1,7 @@
 {
   "name": "pokery",
   "version": "0.0.0",
-  "description": "Hold'em poker cruncher.",
+  "description": "Poker library for poker crunchers.",
   "main": "index.js",
   "repository": {
     "type": "git",

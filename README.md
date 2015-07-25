@@ -1,4 +1,4 @@
 pokery
 ======
 
-Hold'em poker cruncher.
+Node poker library for poker crunchers.
