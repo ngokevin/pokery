@@ -1,4 +1,3 @@
-import c from '../../constants';
 import Hand from '../Hand';
 
 
