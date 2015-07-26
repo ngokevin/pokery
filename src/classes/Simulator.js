@@ -17,8 +17,8 @@ export default class Simulator {
     this.board = board;
 
     // TODO: need to somehow exclude cards from the deck, but allow for ranges.
-    // Might need to generate a new deck on each run, and randomly choose a
-    // card.
+    this.runs = 0;
+    this.ties = 0;
     this.results = hands.map(hand => ({
       hand: hand,
       wins: 0
@@ -53,10 +53,34 @@ export default class Simulator {
         }
       });
 
-      this.results[winningHand].wins++;
+      this.runs++;
+
+      if (winningHand !== undefined) {
+        this.results[winningHand].wins++;
+      } else {
+        this.ties++;
+      }
     }
   }
   getResults() {
     // Aggregate results.
+    return this.results.map(result => {
+      const wins = result.wins;
+      const losses = this.runs - result.wins;
+      const ties = this.ties;
+      const runs = this.runs;
+
+      return _.extend(result, {
+        // equity = win% + (tie% / #hands).
+        losses: losses,
+        ties: ties,
+
+        lossPct: (losses / runs) * 100,
+        tiePct: (ties / runs) * 100,
+        winPct: (wins / runs) * 100,
+
+        ev: (wins / runs) + (ties / runs / this.results.length),
+      });
+    });
   }
 }
