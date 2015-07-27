@@ -1,6 +1,6 @@
 {
   "name": "pokery",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Poker library for poker crunchers.",
   "main": "lib/index.js",
   "repository": {
@@ -12,6 +12,7 @@
   "bugs": {
     "url": "https://github.com/ngokevin/pokery/issues"
   },
+  "keywords": ["poker", "holdem", "cruncher", "hand"],
   "scripts": {
     "compile": "babel --stage 1 -d lib/ src",
     "prepublish": "npm run compile",
