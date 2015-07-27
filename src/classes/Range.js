@@ -1,11 +1,16 @@
 /*
-  Deserializes several hole cards formats.
+  Deserializes ranges.
+
+  TODO:
+  - Store a list of all possible hands as a property on the class.
+  - For multi-ranges, recurse and flatten.
 */
+import _ from 'lodash';
+
 import c from '../constants';
-import {randSuit} from '../utils';
 
 
-export default class HoleCards {
+export default class Range {
   constructor(cards) {
     this.cards = cards;
 
@@ -13,8 +18,12 @@ export default class HoleCards {
     if (cards.constructor === String) {
       if (cards.length == 4) {
         this.initDefinedHand();
-      } else if (cards.length === 3 && cards[2].toLowerCase() === 's') {
-        this.initSuitedHand();
+      } else if (cards.length === 3) {
+        if (cards[2].toLowerCase() === 's') {
+          this.initSuitedHand();
+        } else if (cards[2].toLowerCase() === 'o') {
+          this.initOffSuitedHand();
+        }
       } else if (cards.length === 2) {
         this.initRankOnlyHand();
       }
@@ -33,20 +42,37 @@ export default class HoleCards {
       return [`${cards[0]}${suit}`, `${cards[1]}${suit}`];
     };
   }
+  initOffSuitedHand() {
+    // Such as AQo. Assign unique suits to both cards.
+    const cards = this.cards;
+    this.get = () => {
+      const suit0 = randSuit();
+      let suit1;
+      do {
+        suit1 = randSuit();
+      } while (suit0 == suit1)
+      return [`${cards[0]}${suit0}`, `${cards[1]}${suit1}`];
+    };
+  }
   initRankOnlyHand() {
     // Such as AA. Assign one random suit to each card w/o collisions.
     const cards = this.cards;
     this.get = () => {
-      const suit1 = randSuit();
-      let suit2 = randSuit();
-      while (cards[0] == cards[1] && suit1 == suit2) {
-        // Watch for collisions (cardA == cardB).
-        suit2 = randSuit();
-      }
-      return [`${cards[0]}${suit1}`, `${cards[1]}${suit2}`];
+      const suit0 = randSuit();
+      let suit1;
+      do {
+        // Watch for card collisions.
+        suit1 = randSuit();
+      } while (cards[0] == cards[1] && suit0 == suit1)
+      return [`${cards[0]}${suit0}`, `${cards[1]}${suit1}`];
     };
   }
   toString() {
     return this.cards;
   }
+}
+
+
+function randSuit() {
+  return _.sample(c.SUITS);
 }

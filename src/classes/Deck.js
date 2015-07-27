@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import c from '../constants';
 
 
@@ -30,7 +32,7 @@ export default class Deck {
     for (let i = 0; i < n; i++) {
       let randomIndex;
       do {
-        randomIndex = Math.floor(Math.random() * this.cards.length);
+        randomIndex = _.random(this.cards.length - 1);
       } while (drawnCards.indexOf(randomIndex) !== -1)
 
       drawnCards.push(randomIndex);

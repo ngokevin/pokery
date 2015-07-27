@@ -33,10 +33,11 @@ describe('Deck', () => {
     });
   });
 
-  it('can draws unique cards', () => {
+  it('can draw all cards', () => {
     const deck = new Deck();
-    const cards = deck.draw(51);
-    assert.equal(_.uniq(cards).length, 51);
+    const cards = deck.draw(52);
+    assert.equal(_.uniq(cards).length, 52);
+    assert.equal(cards.indexOf(undefined), -1);
   });
 
   it('can exclude cards from deck constructor', () => {

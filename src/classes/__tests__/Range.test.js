@@ -16,12 +16,27 @@ describe('Range', () => {
     }
   });
 
+  it('generates offsuit hand', () => {
+    const range = new Range('93o');
+    let possibleHands = [];
+    c.SUITS.forEach(suit0 => {
+      c.SUITS.forEach(suit1 => {
+        if (suit0 != suit1) {
+          possibleHands.push([`9${suit0}`, `3${suit1}`]);
+        }
+      });
+    });
+    for (let i = 0; i < 24; i++) {
+      assertDeepInclude(possibleHands, range.get());
+    }
+  });
+
   it('generates rank-only hand', () => {
     const range = new Range('AQ');
     let possibleHands = [];
-    c.SUITS.forEach(suitA => {
-      c.SUITS.forEach(suitB => {
-        possibleHands.push([`A${suitA}`, `Q${suitB}`]);
+    c.SUITS.forEach(suit0 => {
+      c.SUITS.forEach(suit1 => {
+        possibleHands.push([`A${suit0}`, `Q${suit1}`]);
       });
     });
     for (let i = 0; i < 24; i++) {
