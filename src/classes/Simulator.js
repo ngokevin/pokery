@@ -6,29 +6,29 @@ import _ from 'lodash';
 import c from '../constants';
 import Deck from './Deck';
 import Hand from './Hand';
-import HoleCards from './HoleCards';
+import Range from './Range';
 
 
 export default class Simulator {
-  constructor(hands=[], board=[]) {
-    // hands -- ['AhCd', QQ, 'AKs'].
+  constructor(ranges=[], board=[]) {
+    // ranges -- ['AhCd', QQ, 'AKs'].
     // board -- ['Ah', Jd', 2s'].
-    this.hands = hands.map(hand => new HoleCards(hand));
+    this.ranges = ranges.map(hand => new Range(hand));
     this.board = board;
 
-    // TODO: need to somehow exclude cards from the deck, but allow for ranges.
     this.runs = 0;
     this.ties = 0;
-    this.results = hands.map(hand => ({
-      hand: hand,
+    this.results = ranges.map(range => ({
+      range: range,
       wins: 0
     }));
+    this.getResults();
   }
   run(n) {
     for (let i = 0; i < n; i++) {
-      // Generate HoleCards from the ranges, build a Deck excluding those.
+      // Generate hole cards from the ranges, build a Deck excluding those.
       // Draw from the deck onto the board.
-      let hands = this.hands.map(holeCards => holeCards.get());
+      let hands = this.ranges.map(range => range.get());
       let deck = new Deck(_.flatten(hands));
       let board = this.board.concat(
         deck.draw(c.BOARD_LENGTH - this.board.length));
@@ -45,10 +45,12 @@ export default class Simulator {
         this.results[winningHand].wins++;
       }
     }
+
+    return this.getResults();
   }
   getResults() {
     // Aggregate results.
-    return this.results.map(result => {
+    this.results = this.results.map(result => {
       const runs = this.runs;
       const wins = result.wins;
       const ties = this.ties;
@@ -66,6 +68,8 @@ export default class Simulator {
         ev: (wins / runs) + (ties / runs / this.results.length),
       });
     });
+
+    return this.results;
   }
 }
 

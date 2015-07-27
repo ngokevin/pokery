@@ -60,6 +60,10 @@ export default class Hand {
         if (this.ranks[cardinality][rank] < handB.ranks[cardinality][rank]) {
           return -1;
         }
+        if (this.strength === c.HAND_STRAIGHT) {
+          // Only need to compare the first card for straight.
+          return 0;
+        }
       }
     }
     return 0;
@@ -130,10 +134,10 @@ function getHandStrength(hand) {
       }
     }
 
-    hand = _.sortBy(hand, hand => hand.rank);
+    hand = _.sortBy(hand, hand => hand.rank * -1);
     const hasStraight = (
-      hand[4].rank - hand[0].rank == 4 ||
-      _.isEqual(hand.map(card => card.rank), [2, 3, 4, 5, 14]));
+      hand[0].rank - hand[4].rank == 4 ||
+      _.isEqual(hand.map(card => card.rank), [14, 5, 4, 3, 2]));
 
     if (hasFlush && hasStraight) {
       return {strength: c.HAND_STR_FLUSH, ranks: [histogram['1']]};
