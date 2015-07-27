@@ -39,10 +39,10 @@ export default class Simulator {
 
       this.runs++;
 
-      if (winningHand !== -1) {
-        this.results[winningHand].wins++;
-      } else {
+      if (winningHand === -1) {
         this.ties++;
+      } else {
+        this.results[winningHand].wins++;
       }
     }
   }

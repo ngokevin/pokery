@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import c from '../constants';
 import Card from './Card';
 
@@ -127,8 +129,11 @@ function getHandStrength(hand) {
         break;
       }
     }
-    const hasStraight = (hand[4].rank - hand[0].rank == 4 ||
-                         (hand[0].rank == 14 && hand[4].rank == 5));
+
+    hand = _.sortBy(hand, hand => hand.rank);
+    const hasStraight = (
+      hand[4].rank - hand[0].rank == 4 ||
+      _.isEqual(hand.map(card => card.rank), [2, 3, 4, 5, 14]));
 
     if (hasFlush && hasStraight) {
       return {strength: c.HAND_STR_FLUSH, ranks: [histogram['1']]};

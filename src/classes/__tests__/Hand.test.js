@@ -22,6 +22,11 @@ describe('Hand.constructor', () => {
     assert.equal(hand.strength, c.HAND_TRIPS);
   });
 
+  it('reduces to trips (not straight)', () => {
+    const hand = new Hand(['Ks', 'Kc', '4d', '2c', '3h', 'Kd', '8d']);
+    assert.equal(hand.strength, c.HAND_TRIPS);
+  });
+
   it('reduces to straight', () => {
     const hand = new Hand(['2c', '3d', '4h', '5s', '6c', 'Td', 'Th']);
     assert.equal(hand.strength, c.HAND_STRAIGHT);
