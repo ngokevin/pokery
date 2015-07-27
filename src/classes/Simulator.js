@@ -24,7 +24,7 @@ export default class Simulator {
     }));
     this.getResults();
   }
-  run(n) {
+  run(n=1000) {
     for (let i = 0; i < n; i++) {
       // Generate hole cards from the ranges, build a Deck excluding those.
       // Draw from the deck onto the board.
@@ -55,6 +55,10 @@ export default class Simulator {
       const wins = result.wins;
       const ties = this.ties;
       const losses = runs - result.wins - ties;
+
+      if (!this.runs) {
+        return result;
+      }
 
       return _.extend(result, {
         losses: losses,
