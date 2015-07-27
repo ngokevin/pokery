@@ -28,7 +28,7 @@ export default class Hand {
     this.ranks = strength.ranks;
 
     // Set serialized cards.
-    this.cards = cards.map(card => {
+    this.cards = hand.map(card => {
       return card.constructor === String ? card : card.toString();
     });
   }
