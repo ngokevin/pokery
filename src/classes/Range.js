@@ -12,21 +12,31 @@ import c from '../constants';
 
 export default class Range {
   constructor(range) {
-    this.range = range;
+    // range (string) -- comma-separated hand ranges (e.g., "AKs, AJ+, JdJh").
     this.hands = [];  // Pre-populate the entire range.
 
+    if (range.indexOf(',') !== -1) {
+      // Split it and recurse.
+      range.trim().split(',').forEach(innerRange => {
+        this.hands = this.hands.concat(new Range(innerRange).hands);
+      });
+      return;
+    } else {
+      this.range = range.trim();
+    }
+
     // Parse range.
-    if (range.constructor === String) {
-      if (range.length == 4) {
+    if (this.range.constructor === String) {
+      if (this.range.length == 4) {
         this.initDefinedHand();
-      } else if (range.length === 3) {
-        if (range[2].toLowerCase() === 's') {
+      } else if (this.range.length === 3) {
+        if (this.range[2].toLowerCase() === 's') {
           this.initSuitedHand();
-        } else if (range[2].toLowerCase() === 'o') {
+        } else if (this.range[2].toLowerCase() === 'o') {
           this.initOffSuitedHand();
         }
-      } else if (range.length === 2) {
-        if (range[0] == range[1]) {
+      } else if (this.range.length === 2) {
+        if (this.range[0] == range[1]) {
           this.initPocketPairHand();
         } else {
           this.initRankOnlyHand();
