@@ -2,6 +2,8 @@
 const RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'];
 const SUITS = ['c', 'd', 'h', 's'];
 
+const POCKET_SUIT_COMBOS = ['cd', 'ch', 'cs', 'dh', 'ds', 'hs'];
+
 // Maps a rank string to an absolute number.
 const RANK_STRENGTHS = {};
 RANKS.forEach((rank, i) => {
@@ -68,6 +70,7 @@ const ROUND_STRS = {
 export default {
   RANKS: RANKS,
   SUITS: SUITS,
+  POCKET_SUIT_COMBOS: POCKET_SUIT_COMBOS,
   RANK_STRENGTHS: RANK_STRENGTHS,
   RANK_INDEX: RANK_INDEX,
   SUIT_INDEX: SUIT_INDEX,

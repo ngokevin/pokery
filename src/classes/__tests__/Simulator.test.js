@@ -52,20 +52,20 @@ describe('Simulator.run', () => {
     const results = sim.run(1000);
 
     assert.equal(results[0].range, 'AA');
-    assert.isAbove(results[0].wins, 750);
-    assert.isBelow(results[0].losses, 250);
+    assert.isAbove(results[0].wins, 700);
+    assert.isBelow(results[0].losses, 300);
     assert.isBelow(results[0].ties, 50);
-    assert.isBelow(results[0].lossPct, 25);
-    assert.isAbove(results[0].winPct, 75);
+    assert.isBelow(results[0].lossPct, 30);
+    assert.isAbove(results[0].winPct, 70);
     assert.isAbove(results[0].ev, .75);
 
     assert.equal(results[1].range, 'KK');
-    assert.isBelow(results[1].wins, 250);
-    assert.isAbove(results[1].losses, 750);
+    assert.isBelow(results[1].wins, 300);
+    assert.isAbove(results[1].losses, 700);
     assert.isBelow(results[1].ties, 50);
-    assert.isAbove(results[1].lossPct, 75);
-    assert.isBelow(results[1].winPct, 25);
-    assert.isBelow(results[1].ev, .25);
+    assert.isAbove(results[1].lossPct, 70);
+    assert.isBelow(results[1].winPct, 30);
+    assert.isBelow(results[1].ev, .30);
   });
 });
 
