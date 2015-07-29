@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 var argv = require('yargs').argv;
 
-var Simulator = require('../lib/classes/Simulator').default;
+var Simulator = require('pokery').default;
 
 
 process.title = 'pokery';
