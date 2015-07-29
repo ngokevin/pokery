@@ -78,12 +78,39 @@ grammar](http://pokerini.com/help/holdem_range_notation.php).
 
 ```javascript
 > import Range from 'pokery';
-> new Range('AKs').get();
-[ 'Ad', 'Kd' ]
-> new Range('AKs').get();
-[ 'Ac', 'Kc' ]
-> new Range('JQo').get();
-[ 'Js', 'Qd' ]
-> new Range('JQo').get();
-[ 'Jh', 'Qs' ]
+> new Range('AQ').hands
+[ ['Ac', 'Qc'],
+  ['Ac', 'Qd'],
+  ['Ac', 'Qh'],
+  ['Ac', 'Qs'],
+  ['Ah', 'Qc'],
+  ['Ah', 'Qd'],
+  ['Ah', 'Qh'],
+  ['Ah', 'Qs'],
+  ['Ad', 'Qc'],
+  ['Ad', 'Qd'],
+  ['Ad', 'Qh'],
+  ['Ad', 'Qs'],
+  ['As', 'Qc'],
+  ['As', 'Qd'],
+  ['As', 'Qh'],
+  ['As', 'Qs'] ]
+> new Range('55').hands
+[ ['5c', '5d'],
+  ['5c', '5h'],
+  ['5c', '5s'],
+  ['5d', '5h'],
+  ['5d', '5s'],
+  ['5h', '5s'] ]
+> new Range('QQ, 93s').hands
+[ ['Qc', 'Qd'],
+  ['Qc', 'Qh'],
+  ['Qc', 'Qs'],
+  ['Qd', 'Qh'],
+  ['Qd', 'Qs'],
+  ['Qh', 'Qs']
+  ['9c', '3c'],
+  ['9d', '3d'],
+  ['9h', '3h'],
+  ['9s', '3s'] ]
 ```
