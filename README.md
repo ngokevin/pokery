@@ -11,7 +11,7 @@ Reviving the ghost of PokerStove for all platforms.
 
 ## EV Approximations
 
-Use Pokery's Monte Carlo Simulator to run EV approximations.
+Pokery has a Monte Carlo Simulator to run EV approximations.
 
 The Simulator takes an array of ranges and an array of board cards.
 
@@ -50,6 +50,30 @@ The Simulator takes an array of ranges and an array of board cards.
     tiePct: 0,
     winPct: 6.800000000000001,
     ev: 0.068 } ]
+```
+
+## Command Line Usage
+
+Pokery works on the command line!
+
+```bash
+$ pokery simulate -h AA -h KK
+[ { range: 'AA',
+    wins: 807,
+    losses: 191,
+    ties: 2,
+    lossPct: 19.1,
+    tiePct: 0.2,
+    winPct: 80.7,
+    ev: 0.808 },
+  { range: 'KK',
+    wins: 191,
+    losses: 807,
+    ties: 2,
+    lossPct: 80.7,
+    tiePct: 0.2,
+    winPct: 19.1,
+    ev: 0.192 } ]
 ```
 
 ## Hand Evaluations

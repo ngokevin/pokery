@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+var argv = require('yargs').argv;
+
+var Simulator = require('../lib/classes/Simulator').default;
+
+
+process.title = 'pokery';
+
+
+switch (argv._[0]) {
+  case 'simulate':
+    var simulator = new Simulator(argv.h || argv.hand, argv.b || argv.board);
+    simulator.run();
+    console.log(simulator.getResults());
+    break;
+  default:
+    console.error('Unknown command:', argv._[0]);
+}
