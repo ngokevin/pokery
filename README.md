@@ -1,9 +1,14 @@
 pokery
 ======
 
+[![npm version](https://badge.fury.io/js/pokery.svg)](http://badge.fury.io/js/pokery)
+[![travis build](https://travis-ci.org/ngokevin/pokery.svg)](https://travis-ci.org/ngokevin/pokery)
+
 Node poker library for poker crunchers.
 
 Reviving the ghost of PokerStove for all platforms.
+
+Browserify-compatible.
 
 
 ## EV Approximations
