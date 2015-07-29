@@ -1,6 +1,6 @@
 {
   "name": "pokery",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Poker library for poker crunchers.",
   "main": "lib/index.js",
   "repository": {
@@ -20,8 +20,8 @@
   ],
   "scripts": {
     "compile": "babel --stage 1 -d lib/ src",
+    "postinstall": "npm run compile",
     "prepublish": "npm run compile",
-    "preinstall": "npm run compile",
     "test": "npm run compile && mocha $(find lib -name '*.test.js')"
   },
   "devDependencies": {
