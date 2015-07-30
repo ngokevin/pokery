@@ -1,6 +1,6 @@
 {
   "name": "pokery",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Poker library for poker crunchers.",
   "main": "lib/index.js",
   "repository": {
