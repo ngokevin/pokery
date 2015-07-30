@@ -25,7 +25,14 @@ export default class Simulator {
     this.getResults();
   }
   run(n=1000) {
-    // TODO: promises.
+    if (this.board.length) {
+      console.log(
+        `Running ${this.ranges.join(' vs. ')} on ${this.board}, ${n} times`);
+    } else {
+      console.log(
+        `Running ${this.ranges.join(' vs. ')}, ${n} times`);
+    }
+
     for (let i = 0; i < n; i++) {
       // Generate hole cards from the ranges, build a Deck excluding those.
       // Draw from the deck onto the board.
