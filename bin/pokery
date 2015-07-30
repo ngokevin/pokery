@@ -9,14 +9,20 @@ process.title = 'pokery';
 
 switch (argv._[0]) {
   case 'simulate':
-    var board = (argv.b || argv.board).match(new RegExp('.{1,'+ 2 + '}', 'g'));
+    // Parse the board.
+    var board = argv.b || argv.board;
+    if (board) {
+      board = board.match(new RegExp('.{1,'+ 2 + '}', 'g'));
+    }
+
     var simulator = new Simulator(argv.h || argv.hand, board);
-    simulator.run();
-    console.log(simulator.getResults());
+
+    console.log(simulator.run(argv.n || 1000));
     break;
   default:
     console.error('Unknown command:', argv._[0]);
     console.log('\nExample commands:');
-    console.log('  simulate -- `pokery simulate -h AKs -h JJ -b 2d3h4s`');
+    console.log('  simulate -- `pokery simulate -h AKs -h JJ -b 2d3h4s -n ' +
+                '5000`');
     break;
 }

@@ -44,9 +44,28 @@ export default class Range {
       }
     }
   }
-  get() {
+  get(deadCards=[]) {
     // Return random hand from the range.
-    return _.sample(this.hands);
+    function handOkay(hand) {
+      return deadCards.indexOf(hand[0]) === -1 &&
+             deadCards.indexOf(hand[1]) === -1;
+    }
+
+    for (let i = 0; i < 5; i++) {
+      // Optimistically try random hands and return if no collisions.
+      let hand = _.sample(this.hands);
+      if (handOkay(hand)) {
+        return hand;
+      }
+    }
+    // We got a collision after 5 tries. Filter out all possible hands.
+    let hands = _.filter(this.hands.slice(0), handOkay);
+
+    if (!hands.length) {
+      // In rare case, we have no possible hands, return -1.
+      return -1;
+    }
+    return _.sample(hands);
   }
   initDefinedHand() {
     // Such as AhQd.

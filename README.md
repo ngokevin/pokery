@@ -57,7 +57,8 @@ The Simulator takes an array of ranges and an array of board cards.
 Pokery works on the command line!
 
 ```bash
-$ pokery simulate -h AA -h KK
+$ pokery simulate -h AA -h KK -b 2d3h4s -n 5000
+Running AA vs. KK on 2d,3h,4s board, 5000 times
 [ { range: 'AA',
     wins: 807,
     losses: 191,

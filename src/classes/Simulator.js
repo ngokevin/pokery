@@ -27,7 +27,8 @@ export default class Simulator {
   run(n=1000) {
     if (this.board.length) {
       console.log(
-        `Running ${this.ranges.join(' vs. ')} on ${this.board}, ${n} times`);
+        `Running ${this.ranges.join(' vs. ')} on ${this.board} board` +
+        `, ${n} times`);
     } else {
       console.log(
         `Running ${this.ranges.join(' vs. ')}, ${n} times`);
@@ -36,7 +37,13 @@ export default class Simulator {
     for (let i = 0; i < n; i++) {
       // Generate hole cards from the ranges, build a Deck excluding those.
       // Draw from the deck onto the board.
-      let hands = this.ranges.map(range => range.get());
+      let deadCards = this.board;
+      let hands = this.ranges.map(range => {
+        let hand = range.get(deadCards);
+        deadCards = deadCards.concat(hand);
+        return hand;
+      });
+
       let deck = new Deck(_.flatten(hands));
       let board = this.board.concat(
         deck.draw(c.BOARD_LENGTH - this.board.length));
