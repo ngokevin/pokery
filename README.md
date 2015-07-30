@@ -8,6 +8,8 @@ Node poker library for poker crunchers. Also compatible with Browserify.
 
 Reviving the ghost of PokerStove for all platforms.
 
+Currently, Pokery only supports Hold'em. Omaha support will come in the future.
+
 
 ## EV Approximations
 
