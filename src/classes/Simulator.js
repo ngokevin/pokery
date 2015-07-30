@@ -16,6 +16,7 @@ export default class Simulator {
     this.ranges = ranges.map(hand => new Range(hand));
     this.board = board;
 
+    this.failedRuns = 0;
     this.runs = 0;
     this.ties = 0;
     this.results = ranges.map(range => ({
@@ -44,6 +45,12 @@ export default class Simulator {
         return hand;
       });
 
+      if (hands.indexOf(-1) !== -1) {
+        // Unresolvable collision.
+        this.failedRuns++;
+        continue;
+      }
+
       let deck = new Deck(_.flatten(hands));
       let board = this.board.concat(
         deck.draw(c.BOARD_LENGTH - this.board.length));
@@ -61,6 +68,10 @@ export default class Simulator {
       }
     }
 
+    if (this.failedRuns) {
+      console.log(`${this.failedRuns} failed runs due to hole card ` +
+                  'collisions.');
+    }
     return this.getResults();
   }
   getResults() {

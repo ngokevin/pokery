@@ -1,7 +1,7 @@
 import Range from '../Range';
 
 
-describe('Range', () => {
+describe('Range.constructor', () => {
   it('generates defined hand', () => {
     const range = new Range('Ah2d');
     const expectedHands = [
@@ -140,8 +140,33 @@ describe('Range', () => {
       assertDeepInclude(expectedHands, range.get());
     });
   });
+});
 
-  it('toString', () => {
+
+describe('Range.get', () => {
+  it('factors in dead cards', () => {
+    const range = new Range('QQ');
+    const expectedHands = [
+      ['Qc', 'Qd'],
+      ['Qc', 'Qh'],
+      ['Qd', 'Qh']
+    ];
+    for (var i = 0; i < 6; i++) {
+      assertDeepInclude(expectedHands, range.get(['Qs']));
+    }
+  });
+
+  it('returns -1 if empty range', () => {
+    const range = new Range('TT');
+    for (var i = 0; i < 6; i++) {
+      assert.equal(-1, range.get(['Ts', 'Td', 'Tc']));
+    }
+  });
+});
+
+
+describe('Range.toString', () => {
+  it('returns original argument', () => {
     assert.equal(new Range('5h2d'), '5h2d');
     assert.equal(new Range('AQs'), 'AQs');
     assert.equal(new Range('AQ'), 'AQ');

@@ -51,6 +51,8 @@ describe('Simulator.run', () => {
     const sim = new Simulator(['AA', 'KK']);
     const results = sim.run(1000);
 
+    assert.equal(sim.failedRuns, 0);
+
     assert.equal(results[0].range, 'AA');
     assert.isAbove(results[0].wins, 700);
     assert.isBelow(results[0].losses, 300);
@@ -66,6 +68,15 @@ describe('Simulator.run', () => {
     assert.isAbove(results[1].lossPct, 70);
     assert.isBelow(results[1].winPct, 30);
     assert.isBelow(results[1].ev, .30);
+  });
+
+  it('records collisions', () => {
+    const sim = new Simulator(['8h7d', '8h7d']);
+    const results = sim.run(1000);
+    assert.equal(sim.failedRuns, 1000);
+
+    assert.equal(results[0].wins, 0);
+    assert.equal(results[1].wins, 0);
   });
 });
 
