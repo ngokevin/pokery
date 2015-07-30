@@ -26,17 +26,22 @@ export default class Range {
     }
 
     // Parse range.
-    if (this.range.constructor === String) {
-      if (this.range.length == 4) {
+    const cards = this.range;
+    if (cards.constructor === String) {
+      if (cards.length == 4) {
         this.initDefinedHand();
-      } else if (this.range.length === 3) {
-        if (this.range[2].toLowerCase() === 's') {
+      } else if (cards.length === 3) {
+        if (cards[2].toLowerCase() === 's') {
           this.initSuitedHand();
-        } else if (this.range[2].toLowerCase() === 'o') {
+        } else if (cards[2].toLowerCase() === 'o') {
           this.initOffSuitedHand();
+        } else if (cards[2] === '+') {
+          if (cards[0] === cards[1]) {
+            this.initPocketPairPlusHand();
+          }
         }
-      } else if (this.range.length === 2) {
-        if (this.range[0] == range[1]) {
+      } else if (cards.length === 2) {
+        if (cards[0] == cards[1]) {
           this.initPocketPairHand();
         } else {
           this.initRankOnlyHand();
@@ -96,6 +101,16 @@ export default class Range {
     c.POCKET_SUIT_COMBOS.forEach(suits => {
       this.hands.push([`${cards[0]}${suits[0]}`, `${cards[1]}${suits[1]}`]);
     });
+  }
+  initPocketPairPlusHand() {
+    // Such as AA.
+    const cards = this.range;
+    for (let i = c.RANK_INDEX[cards[0]]; i < c.RANKS.length; i++) {
+      let card = c.RANKS[i];
+      c.POCKET_SUIT_COMBOS.forEach(suits => {
+        this.hands.push([`${card}${suits[0]}`, `${card}${suits[1]}`]);
+      });
+    }
   }
   initRankOnlyHand() {
     // Such as AK.

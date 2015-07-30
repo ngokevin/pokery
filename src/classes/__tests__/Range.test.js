@@ -69,6 +69,35 @@ describe('Range.constructor', () => {
     });
   });
 
+  it('generates pocket pair plus hand', () => {
+    const range = new Range('QQ+');
+    let expectedHands = [
+      ['Qc', 'Qd'],
+      ['Qc', 'Qh'],
+      ['Qc', 'Qs'],
+      ['Qd', 'Qh'],
+      ['Qd', 'Qs'],
+      ['Qh', 'Qs'],
+      ['Kc', 'Kd'],
+      ['Kc', 'Kh'],
+      ['Kc', 'Ks'],
+      ['Kd', 'Kh'],
+      ['Kd', 'Ks'],
+      ['Kh', 'Ks'],
+      ['Ac', 'Ad'],
+      ['Ac', 'Ah'],
+      ['Ac', 'As'],
+      ['Ad', 'Ah'],
+      ['Ad', 'As'],
+      ['Ah', 'As'],
+    ];
+    assert.equal(range.hands.length, 18);
+    assertArrayEqual(range.hands, expectedHands);
+    expectedHands.forEach(() => {
+      assertDeepInclude(expectedHands, range.get());
+    });
+  });
+
   it('generates rank-only hand', () => {
     const range = new Range('AQ');
     let expectedHands = [
