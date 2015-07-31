@@ -41,8 +41,8 @@ describe('Range.constructor', () => {
     });
   });
 
-  it.only('generates rank only plus hand', () => {
-    const range = new Range('AJ+');
+  it('generates rank only plus hand', () => {
+    let range = new Range('AJ+');
     let expectedHands = [
       ['Ac', 'Jc'],
       ['Ac', 'Jd'],
@@ -93,6 +93,14 @@ describe('Range.constructor', () => {
       ['As', 'Kh'],
       ['As', 'Ks'],
     ];
+    assert.equal(range.hands.length, 48);
+    assertArrayEqual(range.hands, expectedHands);
+    expectedHands.forEach(() => {
+      assertDeepInclude(expectedHands, range.get());
+    });
+
+    // Reverse.
+    range = new Range('JA+');
     assert.equal(range.hands.length, 48);
     assertArrayEqual(range.hands, expectedHands);
     expectedHands.forEach(() => {
@@ -156,7 +164,7 @@ describe('Range.constructor', () => {
   });
 
   it('generates pocket pair range hand', () => {
-    const range = new Range('55-88');
+    let range = new Range('55-88');
     let expectedHands = [
       ['5c', '5d'],
       ['5c', '5h'],
@@ -183,6 +191,14 @@ describe('Range.constructor', () => {
       ['8d', '8s'],
       ['8h', '8s'],
     ];
+    assert.equal(range.hands.length, 24);
+    assertArrayEqual(range.hands, expectedHands);
+    expectedHands.forEach(() => {
+      assertDeepInclude(expectedHands, range.get());
+    });
+
+    // Reverse.
+    range = new Range('88-55');
     assert.equal(range.hands.length, 24);
     assertArrayEqual(range.hands, expectedHands);
     expectedHands.forEach(() => {
