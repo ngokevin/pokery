@@ -82,6 +82,9 @@ export default class Simulator {
       const ties = this.ties;
       const losses = runs - result.wins - ties;
 
+      // equity = win% + (tie% / #hands).
+      const ev = (wins / runs) + (ties / runs / this.results.length);
+
       if (!this.runs) {
         return result;
       }
@@ -94,8 +97,8 @@ export default class Simulator {
         tiePct: (ties / runs) * 100,
         winPct: (wins / runs) * 100,
 
-        // equity = win% + (tie% / #hands).
-        ev: (wins / runs) + (ties / runs / this.results.length),
+        ev: ev,
+        odds: (1 / (1 - ev)) - 1,
       });
     });
 
