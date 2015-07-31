@@ -39,9 +39,21 @@ export default class Range {
             this.initPocketPairRangeHand();
           }
         }
-      } else if (cards.length == 4) {
-        this.initDefinedHand();
-      } else if (cards.length === 3) {
+      }
+
+      if (cards.length == 4) {
+        if (cards.indexOf('+') === 2 || cards.indexOf('+') === 3) {
+          if (cards.indexOf('s') !== -1) {
+            this.initSuitedPlusHand();
+          } else if (cards.indexOf('o') !== -1) {
+            this.initOffSuitedPlusHand();
+          }
+        } else {
+          this.initDefinedHand();
+        }
+      }
+
+      if (cards.length === 3) {
         if (cards[2].toLowerCase() === 's') {
           this.initSuitedHand();
         } else if (cards[2].toLowerCase() === 'o') {
@@ -53,7 +65,9 @@ export default class Range {
             this.initRankOnlyPlusHand();
           }
         }
-      } else if (cards.length === 2) {
+      }
+
+      if (cards.length === 2) {
         if (cards[0] == cards[1]) {
           this.initPocketPairHand();
         } else {
@@ -100,7 +114,7 @@ export default class Range {
     // Expand to AT, AJ, AQ, AK.
     let cards = this.range;
     if (c.RANK_STRENGTHS[cards[1]] > c.RANK_STRENGTHS[cards[0]]) {
-      cards = `${cards[1]}${cards[0]}+`;
+      cards = `${cards[1]}${cards[0]}`;
     }
     let secondCardRankRange = c.RANKS.slice(c.RANK_INDEX[cards[1]],
                                             c.RANK_INDEX[cards[0]]);
@@ -118,12 +132,36 @@ export default class Range {
       });
     });
   }
+  initOffSuitedPlusHand() {
+    // Such as ATo+ or AT+o.
+    // Expand to ATo, AJo, AQo, AKo.
+    let cards = this.range;
+    if (c.RANK_STRENGTHS[cards[1]] > c.RANK_STRENGTHS[cards[0]]) {
+      cards = `${cards[1]}${cards[0]}`;
+    }
+    let secondCardRankRange = c.RANKS.slice(c.RANK_INDEX[cards[1]],
+                                            c.RANK_INDEX[cards[0]]);
+    let hands = secondCardRankRange.map(card => `${cards[0]}${card}o`);
+    this.hands = this.hands.concat(new Range(hands).hands);
+  }
   initSuitedHand() {
     // Such as AQs.
     const cards = this.range;
     c.SUITS.forEach(suit => {
       this.hands.push([`${cards[0]}${suit}`, `${cards[1]}${suit}`]);
     });
+  }
+  initSuitedPlusHand() {
+    // Such as ATo+ or AT+o.
+    // Expand to ATo, AJo, AQo, AKo.
+    let cards = this.range;
+    if (c.RANK_STRENGTHS[cards[1]] > c.RANK_STRENGTHS[cards[0]]) {
+      cards = `${cards[1]}${cards[0]}`;
+    }
+    let secondCardRankRange = c.RANKS.slice(c.RANK_INDEX[cards[1]],
+                                            c.RANK_INDEX[cards[0]]);
+    let hands = secondCardRankRange.map(card => `${cards[0]}${card}s`);
+    this.hands = this.hands.concat(new Range(hands).hands);
   }
   initPocketPairHand() {
     // Such as AA.
