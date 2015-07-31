@@ -28,7 +28,13 @@ export default class Range {
     // Parse range.
     const cards = this.range;
     if (cards.constructor === String) {
-      if (cards.length == 4) {
+      if (cards.length == 5) {
+        if (cards[2] === '-') {
+          if (cards[0] === cards[1] && cards[3] === cards[4]) {
+            this.initPocketPairRangeHand();
+          }
+        }
+      } else if (cards.length == 4) {
         this.initDefinedHand();
       } else if (cards.length === 3) {
         if (cards[2].toLowerCase() === 's') {
@@ -102,8 +108,22 @@ export default class Range {
       this.hands.push([`${cards[0]}${suits[0]}`, `${cards[1]}${suits[1]}`]);
     });
   }
+  initPocketPairRangeHand() {
+    // Such as 55-88.
+    let cards = this.range;
+    if (c.RANK_STRENGTHS[cards[0]] > c.RANK_STRENGTHS[cards[4]]) {
+      // Swap to expect low-to-high iteration.
+      cards = `${cards[4]}${cards[4]}-${cards[0]}${cards[0]}`
+    }
+    for (let i = c.RANK_INDEX[cards[0]]; i <= c.RANK_INDEX[cards[4]]; i++) {
+      let card = c.RANKS[i];
+      c.POCKET_SUIT_COMBOS.forEach(suits => {
+        this.hands.push([`${card}${suits[0]}`, `${card}${suits[1]}`]);
+      });
+    }
+  }
   initPocketPairPlusHand() {
-    // Such as AA.
+    // Such as QQ+.
     const cards = this.range;
     for (let i = c.RANK_INDEX[cards[0]]; i < c.RANKS.length; i++) {
       let card = c.RANKS[i];

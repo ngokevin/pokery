@@ -69,6 +69,41 @@ describe('Range.constructor', () => {
     });
   });
 
+  it('generates pocket pair range hand', () => {
+    const range = new Range('55-88');
+    let expectedHands = [
+      ['5c', '5d'],
+      ['5c', '5h'],
+      ['5c', '5s'],
+      ['5d', '5h'],
+      ['5d', '5s'],
+      ['5h', '5s'],
+      ['6c', '6d'],
+      ['6c', '6h'],
+      ['6c', '6s'],
+      ['6d', '6h'],
+      ['6d', '6s'],
+      ['6h', '6s'],
+      ['7c', '7d'],
+      ['7c', '7h'],
+      ['7c', '7s'],
+      ['7d', '7h'],
+      ['7d', '7s'],
+      ['7h', '7s'],
+      ['8c', '8d'],
+      ['8c', '8h'],
+      ['8c', '8s'],
+      ['8d', '8h'],
+      ['8d', '8s'],
+      ['8h', '8s'],
+    ];
+    assert.equal(range.hands.length, 24);
+    assertArrayEqual(range.hands, expectedHands);
+    expectedHands.forEach(() => {
+      assertDeepInclude(expectedHands, range.get());
+    });
+  });
+
   it('generates pocket pair plus hand', () => {
     const range = new Range('QQ+');
     let expectedHands = [
