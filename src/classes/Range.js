@@ -15,6 +15,10 @@ export default class Range {
     // range (string) -- comma-separated hand ranges (e.g., "AKs, AJ+, JdJh").
     this.hands = [];  // Pre-populate the entire range.
 
+    if (range.constructor === Array) {
+      range = range.join(',');
+    }
+
     if (range.indexOf(',') !== -1) {
       // Split it and recurse.
       range.trim().split(',').forEach(innerRange => {
@@ -22,6 +26,7 @@ export default class Range {
       });
       return;
     } else {
+      // In the base case, get it ready to parse.
       this.range = range.trim();
     }
 
@@ -44,6 +49,8 @@ export default class Range {
         } else if (cards[2] === '+') {
           if (cards[0] === cards[1]) {
             this.initPocketPairPlusHand();
+          } else {
+            this.initRankOnlyPlusHand();
           }
         }
       } else if (cards.length === 2) {
@@ -83,12 +90,22 @@ export default class Range {
     const cards = this.range;
     this.hands.push([cards.slice(0, 2), cards.slice(2)]);
   }
-  initSuitedHand() {
-    // Such as AQs.
-    const cards = this.range;
-    c.SUITS.forEach(suit => {
-      this.hands.push([`${cards[0]}${suit}`, `${cards[1]}${suit}`]);
-    });
+  initRankOnlyHand() {
+    // Such as AK.
+    this.initOffSuitedHand();
+    this.initSuitedHand();
+  }
+  initRankOnlyPlusHand() {
+    // Such as AT+.
+    // Expand to AT, AJ, AQ, AK.
+    let cards = this.range;
+    if (c.RANK_STRENGTHS[cards[1]] > c.RANK_STRENGTHS[cards[0]]) {
+      cards = `${cards[1]}${cards[0]}+`;
+    }
+    let secondCardRankRange = c.RANKS.slice(c.RANK_INDEX[cards[1]],
+                                            c.RANK_INDEX[cards[0]]);
+    let hands = secondCardRankRange.map(card => `${cards[0]}${card}`);
+    this.hands = this.hands.concat(new Range(hands).hands);
   }
   initOffSuitedHand() {
     // Such as AQo.
@@ -99,6 +116,13 @@ export default class Range {
           this.hands.push([`${cards[0]}${suit0}`, `${cards[1]}${suit1}`]);
         }
       });
+    });
+  }
+  initSuitedHand() {
+    // Such as AQs.
+    const cards = this.range;
+    c.SUITS.forEach(suit => {
+      this.hands.push([`${cards[0]}${suit}`, `${cards[1]}${suit}`]);
     });
   }
   initPocketPairHand() {
@@ -131,11 +155,6 @@ export default class Range {
         this.hands.push([`${card}${suits[0]}`, `${card}${suits[1]}`]);
       });
     }
-  }
-  initRankOnlyHand() {
-    // Such as AK.
-    this.initSuitedHand();
-    this.initOffSuitedHand();
   }
   toString() {
     return this.range;

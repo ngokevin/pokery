@@ -14,15 +14,86 @@ describe('Range.constructor', () => {
     });
   });
 
-  it('generates suited hand', () => {
-    const range = new Range('AQs');
-    const expectedHands = [
+  it('generates rank only hand', () => {
+    const range = new Range('AQ');
+    let expectedHands = [
       ['Ac', 'Qc'],
-      ['Ad', 'Qd'],
+      ['Ac', 'Qd'],
+      ['Ac', 'Qh'],
+      ['Ac', 'Qs'],
+      ['Ah', 'Qc'],
+      ['Ah', 'Qd'],
       ['Ah', 'Qh'],
+      ['Ah', 'Qs'],
+      ['Ad', 'Qc'],
+      ['Ad', 'Qd'],
+      ['Ad', 'Qh'],
+      ['Ad', 'Qs'],
+      ['As', 'Qc'],
+      ['As', 'Qd'],
+      ['As', 'Qh'],
       ['As', 'Qs'],
     ];
-    assert.equal(range.hands.length, 4);
+    assert.equal(range.hands.length, 16);
+    assertArrayEqual(range.hands, expectedHands);
+    expectedHands.forEach(() => {
+      assertDeepInclude(expectedHands, range.get());
+    });
+  });
+
+  it.only('generates rank only plus hand', () => {
+    const range = new Range('AJ+');
+    let expectedHands = [
+      ['Ac', 'Jc'],
+      ['Ac', 'Jd'],
+      ['Ac', 'Jh'],
+      ['Ac', 'Js'],
+      ['Ah', 'Jc'],
+      ['Ah', 'Jd'],
+      ['Ah', 'Jh'],
+      ['Ah', 'Js'],
+      ['Ad', 'Jc'],
+      ['Ad', 'Jd'],
+      ['Ad', 'Jh'],
+      ['Ad', 'Js'],
+      ['As', 'Jc'],
+      ['As', 'Jd'],
+      ['As', 'Jh'],
+      ['As', 'Js'],
+      ['Ac', 'Qc'],
+      ['Ac', 'Qd'],
+      ['Ac', 'Qh'],
+      ['Ac', 'Qs'],
+      ['Ah', 'Qc'],
+      ['Ah', 'Qd'],
+      ['Ah', 'Qh'],
+      ['Ah', 'Qs'],
+      ['Ad', 'Qc'],
+      ['Ad', 'Qd'],
+      ['Ad', 'Qh'],
+      ['Ad', 'Qs'],
+      ['As', 'Qc'],
+      ['As', 'Qd'],
+      ['As', 'Qh'],
+      ['As', 'Qs'],
+      ['Ac', 'Kc'],
+      ['Ac', 'Kd'],
+      ['Ac', 'Kh'],
+      ['Ac', 'Ks'],
+      ['Ah', 'Kc'],
+      ['Ah', 'Kd'],
+      ['Ah', 'Kh'],
+      ['Ah', 'Ks'],
+      ['Ad', 'Kc'],
+      ['Ad', 'Kd'],
+      ['Ad', 'Kh'],
+      ['Ad', 'Ks'],
+      ['As', 'Kc'],
+      ['As', 'Kd'],
+      ['As', 'Kh'],
+      ['As', 'Ks'],
+    ];
+    assert.equal(range.hands.length, 48);
     assertArrayEqual(range.hands, expectedHands);
     expectedHands.forEach(() => {
       assertDeepInclude(expectedHands, range.get());
@@ -46,6 +117,21 @@ describe('Range.constructor', () => {
       ['9s', '3h'],
     ];
     assert.equal(range.hands.length, 12);
+    assertArrayEqual(range.hands, expectedHands);
+    expectedHands.forEach(() => {
+      assertDeepInclude(expectedHands, range.get());
+    });
+  });
+
+  it('generates suited hand', () => {
+    const range = new Range('AQs');
+    const expectedHands = [
+      ['Ac', 'Qc'],
+      ['Ad', 'Qd'],
+      ['Ah', 'Qh'],
+      ['As', 'Qs'],
+    ];
+    assert.equal(range.hands.length, 4);
     assertArrayEqual(range.hands, expectedHands);
     expectedHands.forEach(() => {
       assertDeepInclude(expectedHands, range.get());
@@ -127,33 +213,6 @@ describe('Range.constructor', () => {
       ['Ah', 'As'],
     ];
     assert.equal(range.hands.length, 18);
-    assertArrayEqual(range.hands, expectedHands);
-    expectedHands.forEach(() => {
-      assertDeepInclude(expectedHands, range.get());
-    });
-  });
-
-  it('generates rank-only hand', () => {
-    const range = new Range('AQ');
-    let expectedHands = [
-      ['Ac', 'Qc'],
-      ['Ac', 'Qd'],
-      ['Ac', 'Qh'],
-      ['Ac', 'Qs'],
-      ['Ah', 'Qc'],
-      ['Ah', 'Qd'],
-      ['Ah', 'Qh'],
-      ['Ah', 'Qs'],
-      ['Ad', 'Qc'],
-      ['Ad', 'Qd'],
-      ['Ad', 'Qh'],
-      ['Ad', 'Qs'],
-      ['As', 'Qc'],
-      ['As', 'Qd'],
-      ['As', 'Qh'],
-      ['As', 'Qs'],
-    ];
-    assert.equal(range.hands.length, 16);
     assertArrayEqual(range.hands, expectedHands);
     expectedHands.forEach(() => {
       assertDeepInclude(expectedHands, range.get());
