@@ -1,9 +1,5 @@
 /*
   Deserializes ranges.
-
-  TODO:
-  - Store a list of all possible hands as a property on the class.
-  - For multi-ranges, recurse and flatten.
 */
 import _ from 'lodash';
 
