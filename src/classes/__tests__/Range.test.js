@@ -379,5 +379,6 @@ describe('Range.toString', () => {
     assert.equal(new Range('5h2d'), '5h2d');
     assert.equal(new Range('AQs'), 'AQs');
     assert.equal(new Range('AQ'), 'AQ');
+    assert.equal(new Range('AK+,TT+'), 'AK+,TT+');
   });
 });

@@ -9,13 +9,19 @@ process.title = 'pokery';
 
 switch (argv._[0]) {
   case 'simulate':
+    // Parse the hands.
+    var hands = argv.h || argv.hand;
+    hands = hands.map(function(hand) {
+      return hand.toString();
+    });
+
     // Parse the board.
     var board = argv.b || argv.board;
     if (board) {
       board = board.match(new RegExp('.{1,'+ 2 + '}', 'g'));
     }
 
-    var simulator = new Simulator(argv.h || argv.hand, board);
+    var simulator = new Simulator(hands, board);
 
     console.log(simulator.run(argv.n || 1000));
     break;

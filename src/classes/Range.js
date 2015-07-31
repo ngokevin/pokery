@@ -15,15 +15,13 @@ export default class Range {
       range = range.join(',');
     }
 
+    this.range = range.trim();
     if (range.indexOf(',') !== -1) {
-      // Split it and recurse.
-      range.trim().split(',').forEach(innerRange => {
+      // Split it and recurse if it's a multi-range..
+      range.split(',').forEach(innerRange => {
         this.hands = this.hands.concat(new Range(innerRange).hands);
       });
       return;
-    } else {
-      // In the base case, get it ready to parse.
-      this.range = range.trim();
     }
 
     // Parse range.
