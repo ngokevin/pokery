@@ -31,6 +31,8 @@ export default class Range {
         if (cards[2] === '-') {
           if (cards[0] === cards[1] && cards[3] === cards[4]) {
             this.initPocketPairRangeHand();
+          } else if (cards[0] === cards[3]) {
+            this.initRankOnlyRangeHand();
           }
         }
       }
@@ -103,6 +105,16 @@ export default class Range {
     this.initOffSuitedHand();
     this.initSuitedHand();
   }
+  initRankOnlyRangeHand() {
+    // Such as AT-AQ.
+    // Expand to AT, AJ, AQ.
+    const cards = this.range;
+    const lowCard = Math.min(c.RANK_INDEX[cards[1]], c.RANK_INDEX[cards[4]]);
+    const hiCard = Math.max(c.RANK_INDEX[cards[1]], c.RANK_INDEX[cards[4]]);
+    const secondCardRankRange = c.RANKS.slice(lowCard, hiCard);
+    const hands = secondCardRankRange.map(card => `${cards[0]}${card}`);
+    this.hands = this.hands.concat(new Range(hands).hands);
+  }
   initRankOnlyPlusHand() {
     // Such as AT+.
     // Expand to AT, AJ, AQ, AK.
@@ -110,9 +122,9 @@ export default class Range {
     if (c.RANK_STRENGTHS[cards[1]] > c.RANK_STRENGTHS[cards[0]]) {
       cards = `${cards[1]}${cards[0]}`;
     }
-    let secondCardRankRange = c.RANKS.slice(c.RANK_INDEX[cards[1]],
+    const secondCardRankRange = c.RANKS.slice(c.RANK_INDEX[cards[1]],
                                             c.RANK_INDEX[cards[0]]);
-    let hands = secondCardRankRange.map(card => `${cards[0]}${card}`);
+    const hands = secondCardRankRange.map(card => `${cards[0]}${card}`);
     this.hands = this.hands.concat(new Range(hands).hands);
   }
   initOffSuitedHand() {

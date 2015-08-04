@@ -95,6 +95,66 @@ describe('Range.constructor', () => {
     assertArrayEqual(reverseRange.hands, range.hands);
   });
 
+  it('generates rank only range hands', () => {
+    let range = new Range('KT-KQ');
+    let expectedHands = [
+      ['Kc', 'Tc'],
+      ['Kc', 'Td'],
+      ['Kc', 'Th'],
+      ['Kc', 'Ts'],
+      ['Kh', 'Tc'],
+      ['Kh', 'Td'],
+      ['Kh', 'Th'],
+      ['Kh', 'Ts'],
+      ['Kd', 'Tc'],
+      ['Kd', 'Td'],
+      ['Kd', 'Th'],
+      ['Kd', 'Ts'],
+      ['Ks', 'Tc'],
+      ['Ks', 'Td'],
+      ['Ks', 'Th'],
+      ['Ks', 'Ts'],
+      ['Kc', 'Jc'],
+      ['Kc', 'Jd'],
+      ['Kc', 'Jh'],
+      ['Kc', 'Js'],
+      ['Kh', 'Jc'],
+      ['Kh', 'Jd'],
+      ['Kh', 'Jh'],
+      ['Kh', 'Js'],
+      ['Kd', 'Jc'],
+      ['Kd', 'Jd'],
+      ['Kd', 'Jh'],
+      ['Kd', 'Js'],
+      ['Ks', 'Jc'],
+      ['Ks', 'Jd'],
+      ['Ks', 'Jh'],
+      ['Ks', 'Js'],
+      ['Kc', 'Qc'],
+      ['Kc', 'Qd'],
+      ['Kc', 'Qh'],
+      ['Kc', 'Qs'],
+      ['Kh', 'Qc'],
+      ['Kh', 'Qd'],
+      ['Kh', 'Qh'],
+      ['Kh', 'Qs'],
+      ['Kd', 'Qc'],
+      ['Kd', 'Qd'],
+      ['Kd', 'Qh'],
+      ['Kd', 'Qs'],
+      ['Ks', 'Qc'],
+      ['Ks', 'Qd'],
+      ['Ks', 'Qh'],
+      ['Ks', 'Qs'],
+    ];
+    assert.equal(range.hands.length, 32);
+    assertArrayEqual(range.hands, expectedHands);
+
+    // Reverse.
+    let reverseRange = new Range('KQ-KT');
+    assertArrayEqual(reverseRange.hands, range.hands);
+  });
+
   it('generates offsuit hands', () => {
     const range = new Range('93o');
     let expectedHands = [
